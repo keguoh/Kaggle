@@ -4,7 +4,7 @@ n_all <- 4000
 n_trn <- 3000
 idx <- sample(1:nrow(trn_raw), n_all)
 all <- trn_raw[idx, ]
-all$place_id <- factor(all$place_id)
+all$place_id <- as.character(all$place_id)
 idx_trn <- sample(1:n_all, n_trn)
 
 # train and validation sets
@@ -26,7 +26,8 @@ mapk(1, pred$tst_Y, pred$p)
 
 
 system.time(expr = KKNN <- kknn_fb(place_id~., trn, k = 7, tst, distance = 2, kernel = "triangular"))
-summary(KKNN)
+write.csv(data.frame(row_id = tst[, 1], place_id = KKNN), file = "KKNN_FB.csv", row.names = F)
+str(KKNN)
 p <- fitted(KKNN)
 pred <- data.frame(p = p, tst_Y = factor(tst_Y))
 mapk(1, pred$tst_Y, pred$p)

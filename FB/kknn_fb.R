@@ -167,3 +167,21 @@ kknn_fb <- function (formula = formula(train), train, test, na.action = na.omit(
   result <- submit
   result
 }
+
+set.seed(1)
+
+# input for kknn
+trn <- trn_raw
+tst <- cls_raw
+all <- rbind(trn, tst)
+# all$place_id <- factor(all$place_id)
+std_X <- scale(all[, -6])
+trn_X <- std_X[1:nrow(trn), ]
+tst_X <- std_X[-(1:nrow(trn)), ]
+trn_std <- data.frame(trn_X, trn[, "place_id"])
+tst_std <- data.frame(tst_X, tst[, "place_id"])
+names(trn_std)[6] <- "place_id"
+names(tst_std)[6] <- "place_id"
+system.time(expr = KKNN <- kknn_fb(place_id~., trn_std, k = 7, tst_std, distance = 2, kernel = "triangular"))
+save.image()
+write.csv(data.frame(row_id = tst[, 1], place_id = KKNN), file = "KKNN_FB.csv", row.names = F)
