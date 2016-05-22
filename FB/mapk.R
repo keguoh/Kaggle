@@ -1,11 +1,3 @@
-pred <- read.table("pred.csv", header = T, sep = ",")
-head(pred)
-str(pred)
-mapk(1, pred$tst_Y, pred$p)
-
-
-
-
 #' Compute the average precision at k
 #'
 #' This function computes the average precision at k
