@@ -20,7 +20,6 @@ train = trn_std
 k = 7
 cutoff = 3
 distance = 2
-na.action = na.omit()
 kernel = "optimal"
 ykernel = NULL
 scale = TRUE

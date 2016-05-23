@@ -2,9 +2,9 @@
 # input for kknn
 set.seed(1)
 idx_trn <- sample(1:nrow(trn_raw), 3e6)
-idx_tst <- sample(1:nrow(tst_raw), 1e6)
+idx_tst <- sample(1:nrow(cls_raw), 1e6)
 trn <- trn_raw[idx_trn, ]
-tst <- cls_raw[idx_cls, ]
+tst <- cls_raw[idx_tst, ]
 all <- rbind(trn, tst)
 # all$place_id <- factor(all$place_id)
 std_X <- scale(all[, -6])
@@ -14,14 +14,11 @@ trn_std <- data.frame(trn_X, trn[, "place_id"])
 tst_std <- data.frame(tst_X, tst[, "place_id"])
 names(trn_std)[6] <- "place_id"
 names(tst_std)[6] <- "place_id"
-system.time(expr = KKNN <- kknn_fb(place_id~., trn_std, k = 7, tst_std, distance = 2, kernel = "triangular"))
-save.image()
 formula = place_id ~ .
 train = trn_std
 k = 7
 cutoff = 3
 distance = 2
-na.action = na.omit()
 kernel = "optimal"
 ykernel = NULL
 scale = TRUE
