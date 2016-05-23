@@ -46,7 +46,7 @@ def prep_xy(x, y, range_x, range_y):
 
 def run_solution():
     print('Preparing arrays...')
-    f = open("../input/train.csv", "r")
+    f = open("train.csv", "r")
     f.readline()
     total = 0
     grid_size_x = 285 #500
@@ -181,7 +181,7 @@ def run_solution():
     print('Generate submission...')
     sub_file = os.path.join('submission_' + str(datetime.datetime.now().strftime("%Y-%m-%d-%H-%M")) + '.csv')
     out = open(sub_file, "w")
-    f = open("../input/test.csv", "r")
+    f = open("test.csv", "r")
     f.readline()
     total = 0
     count_empty0 = 0

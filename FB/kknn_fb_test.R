@@ -16,6 +16,7 @@ names(trn_std)[6] <- "place_id"
 names(tst_std)[6] <- "place_id"
 formula = place_id ~ .
 train = trn_std
+test = tst_std
 k = 7
 cutoff = 3
 distance = 2
