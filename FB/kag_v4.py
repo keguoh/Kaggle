@@ -1,5 +1,6 @@
-# v0: using s1 first for both out_of_business and validation sets
-# result: better than the original
+# v3 (based on v0): different grid size for x and y (see R plot results)
+# result: total grid in [100000, 150000, 200000, 250000, 300000], ratio in [2, 4, 8, 10, 15, 20, 25, 30, 35, 40, 45]
+# when # of total grids is 200000 and ratio is 2 the error is 0.47461865
 
 
 # coding: utf-8
@@ -48,15 +49,16 @@ def prep_xy(x, y, range_x, range_y):
     return ix, iy
 
 
-def run_solution():
-    print('Preparing arrays...')
+def run_solution(total_grid, ratio):
+    # print('Preparing arrays...')
     f = open("train.csv", "r")
     f.readline()
     total = 0
-    grid_size_x = 301 #500
-    grid_size_y = 651 #1000
-    grid_size_x2 = 100
-    grid_size_y2 = 200
+    count_empty0 = 0
+    count_empty1 = 0
+    count_empty2 = 0
+    grid_size_x = math.floor(math.sqrt(total_grid / ratio)) #500
+    grid_size_y = math.floor(grid_size_x * ratio) #1000
     # Maximum T = 786239. Take -10% of it
     split_t = math.floor((1.0 - 0.12) * 786239)
     out_of_business_time = 0.12
@@ -134,7 +136,6 @@ def run_solution():
         filled = []
 
         ix, iy = prep_xy(x, y, grid_size_x, grid_size_y)
-        ix2, iy2 = prep_xy(x, y, grid_size_x2, grid_size_y2)
 
         s1 = (ix, iy, quarter_period_of_day)
         s2 = (ix, iy)
@@ -175,12 +176,20 @@ def run_solution():
 
         score += apk([place_id], filled, 3)
         score_num += 1
+        if len(filled) == 0:
+            count_empty0 += 1
+        if len(filled) == 1:
+            count_empty1 += 1
+        if len(filled) == 2:
+            count_empty2 += 1
+
+    print('Empty0 cases:', str(count_empty0))
+    print('Empty1 cases:', str(count_empty1))
+    print('Empty2 cases:', str(count_empty2))
 
     f.close()
     score /= score_num
-    print('Predicted score: {}'.format(score))
-    print('Train samples: ', train_samples)
-    print('Test samples: ', test_samples)
+    print('Predicted score: %r when total_grid is %r and ratio is %r' %(score, total_grid, ratio))
 
     # print('Generate submission...')
     # sub_file = os.path.join('submission_' + str(datetime.datetime.now().strftime("%Y-%m-%d-%H-%M")) + '.csv')
@@ -211,7 +220,6 @@ def run_solution():
     #     filled = []
 
     #     ix, iy = prep_xy(x, y, grid_size_x, grid_size_y)
-    #     ix2, iy2 = prep_xy(x, y, grid_size_x2, grid_size_y2)
 
     #     s1 = (ix, iy, quarter_period_of_day)
     #     s2 = (ix, iy)
@@ -268,7 +276,8 @@ def run_solution():
     # out.close()
     # f.close()
 
-
-start_time = time.time()
-run_solution()
-print("Elapsed time overall: %s seconds" % (time.time() - start_time))
+for total_grid in [100000, 150000, 200000, 250000, 300000]:
+    for ratio in [2, 4, 8, 10, 15, 20, 25, 30, 35, 40, 45]:
+        start_time = time.time()
+        run_solution(total_grid, ratio)
+        print("Elapsed time overall: %s seconds" % (time.time() - start_time))

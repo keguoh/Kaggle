@@ -1,0 +1,3 @@
+Predicted score: 0.4724210821650315 when total_grid is 150000 and ratio is 2
+Predicted score: 0.474618654190115 when total_grid is 200000 and ratio is 2
+Predicted score: 0.47416452886478583 when total_grid is 250000 and ratio is 2

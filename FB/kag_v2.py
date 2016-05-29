@@ -1,4 +1,4 @@
-# v2 (based on v1): try different time feature, different period of day
+# v2 (based on v0): try different time feature, different period of day
 # result: found that quarter of the day is the best, 361 and 651
 
 # coding: utf-8

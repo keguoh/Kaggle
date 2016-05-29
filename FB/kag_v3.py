@@ -1,6 +1,9 @@
 # v3 (based on v0): different grid size for x and y (see R plot results)
-# result: total grid in [100000, 150000, 200000, 250000, 300000], ratio in [2, 4, 8, 10, 15, 20, 25, 30, 35, 40, 45]
-# when # of total grids is 200000 and ratio is 2 the error is 0.47461865
+# result: 1. total grid in [100000, 150000, 200000, 250000, 300000], ratio in [2, 4, 8, 10, 15, 20, 25, 30, 35, 40, 45]
+#            Predicted score: 0.472421082165032 when total_grid is 150000 and ratio is 2
+#            Predicted score: 0.474618654190115 when total_grid is 200000 and ratio is 2
+#            Predicted score: 0.474164528864786 when total_grid is 250000 and ratio is 2
+
 
 
 # coding: utf-8
@@ -276,8 +279,8 @@ def run_solution(total_grid, ratio):
     # out.close()
     # f.close()
 
-for total_grid in [100000, 150000, 200000, 250000, 300000]:
-    for ratio in [2, 4, 8, 10, 15, 20, 25, 30, 35, 40, 45]:
+for total_grid in [200000]:
+    for ratio in [2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3]:
         start_time = time.time()
         run_solution(total_grid, ratio)
         print("Elapsed time overall: %s seconds" % (time.time() - start_time))
