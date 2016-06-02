@@ -1,9 +1,10 @@
 # v3 (based on v0): different grid size for x and y (see R plot results)
 # result: 1. total grid in [100000, 150000, 200000, 250000, 300000], ratio in [2, 4, 8, 10, 15, 20, 25, 30, 35, 40, 45]
 #            Predicted score: 0.472421082165032 when total_grid is 150000 and ratio is 2
-#            Predicted score: 0.474618654190115 when total_grid is 200000 and ratio is 2
+#         ** Predicted score: 0.474618654190115 when total_grid is 200000 and ratio is 2
 #            Predicted score: 0.474164528864786 when total_grid is 250000 and ratio is 2
-
+# result: 2. fixed total grid = 200000, let ratio in [0.9:2.9]
+#         ** Predicted score: 0.47477081525448267 when total_grid is 200000 and ratio is 2.2
 
 
 # coding: utf-8
@@ -52,7 +53,7 @@ def prep_xy(x, y, range_x, range_y):
     return ix, iy
 
 
-def run_solution(total_grid, ratio):
+def run_solution(total_grid, ratio, prop = 0.23, out_of_business_time = 0.12):
     # print('Preparing arrays...')
     f = open("train.csv", "r")
     f.readline()
@@ -63,9 +64,8 @@ def run_solution(total_grid, ratio):
     grid_size_x = math.floor(math.sqrt(total_grid / ratio)) #500
     grid_size_y = math.floor(grid_size_x * ratio) #1000
     # Maximum T = 786239. Take -10% of it
-    split_t = math.floor((1.0 - 0.12) * 786239)
-    out_of_business_time = 0.12
-    split_test_out_of_business = math.floor((1.0 - 0.12 - out_of_business_time) * 786239)
+    split_t = math.floor((1.0 - prop) * 786239)
+    split_test_out_of_business = math.floor((1.0 - prop) * (1 - out_of_business_time) * 786239)
     split_submit_out_of_business = math.floor((1.0 - out_of_business_time) * 786239)
     test_arr = []
 
@@ -192,7 +192,7 @@ def run_solution(total_grid, ratio):
 
     f.close()
     score /= score_num
-    print('Predicted score: %r when total_grid is %r and ratio is %r' %(score, total_grid, ratio))
+    print('Predicted score: %r when out_of_business_time is %r' %(score, out_of_business_time))
 
     # print('Generate submission...')
     # sub_file = os.path.join('submission_' + str(datetime.datetime.now().strftime("%Y-%m-%d-%H-%M")) + '.csv')
@@ -279,8 +279,8 @@ def run_solution(total_grid, ratio):
     # out.close()
     # f.close()
 
-for total_grid in [200000]:
-    for ratio in [2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3]:
+for prop in [0.23]:
+    for out_of_business_time in [0.1, 0.12, 0.14, 0.16, 0.18, 0.20]:
         start_time = time.time()
-        run_solution(total_grid, ratio)
+        run_solution(200000, 2.2, prop, out_of_business_time)
         print("Elapsed time overall: %s seconds" % (time.time() - start_time))

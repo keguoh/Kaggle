@@ -1,4 +1,4 @@
-# v3 (based on v0): different grid size for x and y (see R plot results)
+# v4 (based on v3): different grid size for x and y (see R plot results)
 # result: total grid in [100000, 150000, 200000, 250000, 300000], ratio in [2, 4, 8, 10, 15, 20, 25, 30, 35, 40, 45]
 # when # of total grids is 200000 and ratio is 2 the error is 0.47461865
 
