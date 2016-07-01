@@ -252,7 +252,7 @@ def feature_engineering(df):
 print('Starting...')
 start_time = time.time()
 # Global variables
-datapath = '../input/'
+datapath = 'C:/Users/huangke/Documents/GitHub/Kaggle/FB/'
 # Change val_start_day to zero to generate predictions
 val_start_day = 0 #change to 455 in order to activate validation
 th = 5 # Threshold at which to cut places from train
